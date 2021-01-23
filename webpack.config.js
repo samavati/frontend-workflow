@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const config = {
   mode: 'development',
-  entry: './src/assets/scripts/index.js',
+  entry: './src/assets/scripts/index.ts',
   output: {
     filename: '[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
@@ -20,16 +20,30 @@ const config = {
       template: 'src/index.html',
     }),
   ],
+
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
+  },
 };
 
 module.exports = (env, argv) => {
 
   if (argv.mode === 'development') {
-      config.devtool = 'inline-source-map';
+    config.devtool = 'inline-source-map';
   }
 
   if (argv.mode === 'production') {
-      //...
+    //...
   }
 
   return config;
